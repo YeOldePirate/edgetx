@@ -1333,6 +1333,10 @@
 // Internal Module
 #if defined(PCBXLITE)
 #define EXTERNAL_ANTENNA
+#define INTMODULE_DMA_CHANNEL            DMA_Channel_4
+#define INTMODULE_BOOTCMD_GPIO           GPIOA
+#define INTMODULE_BOOTCMD_GPIO_PIN       GPIO_Pin_14  // PA.14
+#define INIT_INTMODULE_BOOTCMD_PIN()     GPIO_SetBits(INTMODULE_BOOTCMD_GPIO, INTMODULE_BOOTCMD_GPIO_PIN);
 #endif
 #if defined(PCBXLITE) || defined(PCBX9LITE)
   #define INTMODULE_RCC_APB1Periph      0

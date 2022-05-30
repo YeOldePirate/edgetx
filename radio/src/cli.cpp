@@ -998,7 +998,7 @@ int cliSet(const char **argv)
       }
       cliSerialPrint("%s: rfmod %d power %s", argv[0], module, argv[4]);
     }
-#if defined(INTMODULE_BOOTCMD_GPIO)
+#if defined(INTMODULE_BOOTCMD_GPIO) //set and reset have been inverted for xlite intmodule specifically
     else if (!strcmp(argv[3], "bootpin")) {
       int level = 0;
       if (toInt(argv, 4, &level) < 0) {
@@ -1007,10 +1007,10 @@ int cliSet(const char **argv)
       }
       if (module == 0) {
         if (level) {
-          GPIO_SetBits(INTMODULE_BOOTCMD_GPIO, INTMODULE_BOOTCMD_GPIO_PIN);
+          GPIO_ResetBits(INTMODULE_BOOTCMD_GPIO, INTMODULE_BOOTCMD_GPIO_PIN);
           cliSerialPrint("%s: bootpin set", argv[0]);
         } else {
-          GPIO_ResetBits(INTMODULE_BOOTCMD_GPIO, INTMODULE_BOOTCMD_GPIO_PIN);
+          GPIO_SetBits(INTMODULE_BOOTCMD_GPIO, INTMODULE_BOOTCMD_GPIO_PIN);
           cliSerialPrint("%s: bootpin reset", argv[0]);
         }
       }
