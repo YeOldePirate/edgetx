@@ -1333,10 +1333,6 @@
 // Internal Module
 #if defined(PCBXLITE)
 #define EXTERNAL_ANTENNA
-#define INTMODULE_DMA_CHANNEL            DMA_Channel_4
-#define INTMODULE_BOOTCMD_GPIO           GPIOA
-#define INTMODULE_BOOTCMD_GPIO_PIN       GPIO_Pin_14  // PA.14
-#define INIT_INTMODULE_BOOTCMD_PIN()     GPIO_SetBits(INTMODULE_BOOTCMD_GPIO, INTMODULE_BOOTCMD_GPIO_PIN);
 #endif
 #if defined(PCBXLITE) || defined(PCBX9LITE)
   #define INTMODULE_RCC_APB1Periph      0
@@ -1371,6 +1367,12 @@
     #define INTMODULE_BOOTCMD_GPIO         GPIOC
     #define INTMODULE_BOOTCMD_GPIO_PIN     GPIO_Pin_8  // PC.08
     #define INIT_INTMODULE_BOOTCMD_PIN()   GPIO_ResetBits(INTMODULE_BOOTCMD_GPIO, INTMODULE_BOOTCMD_GPIO_PIN);
+  #endif
+  #if defined(PCBXLITE) && !defined(PCBXLITES)
+    #define INTMODULE_DMA_CHANNEL          DMA_Channel_4
+    #define INTMODULE_BOOTCMD_GPIO         GPIOA
+    #define INTMODULE_BOOTCMD_GPIO_PIN     GPIO_Pin_14  // PA.14
+    #define INIT_INTMODULE_BOOTCMD_PIN()   GIO_SetBits(INTMODULE_BOOTCMD_GPIO, INTMODULE_BOOTCMD_GPIO_PIN);
   #endif
 #elif defined(RADIO_X9DP2019)
   #define INTMODULE_RCC_APB1Periph      0

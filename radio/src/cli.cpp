@@ -998,7 +998,7 @@ int cliSet(const char **argv)
       }
       cliSerialPrint("%s: rfmod %d power %s", argv[0], module, argv[4]);
     }
-#if defined(INTMODULE_BOOTCMD_GPIO) || defined(PCBXLITE)
+#if defined(INTMODULE_BOOTCMD_GPIO) && defined(PCBXLITE) && !defined(PCBXLITES)
     else if (!strcmp(argv[3], "bootpin")) {
       int level = 0;
       if (toInt(argv, 4, &level) < 0) {
@@ -1016,7 +1016,7 @@ int cliSet(const char **argv)
       }
     }
 #endif
-#if defined(INTMODULE_BOOTCMD_GPIO) || !defined(PCBXLITE)
+#if defined(INTMODULE_BOOTCMD_GPIO) && !defined(PCBXLITE) || defined(PCBXLITES)
     else if (!strcmp(argv[3], "bootpin")) {
       int level = 0;
       if (toInt(argv, 4, &level) < 0) {
