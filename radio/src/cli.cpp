@@ -998,7 +998,7 @@ int cliSet(const char **argv)
       }
       cliSerialPrint("%s: rfmod %d power %s", argv[0], module, argv[4]);
     }
-#if defined(INTMODULE_BOOTCMD_GPIO) //set and reset have been inverted for vanilla xlite intmodule specifically
+#if defined(INTMODULE_BOOTCMD_GPIO) || defined(PCBXLITE)
     else if (!strcmp(argv[3], "bootpin")) {
       int level = 0;
       if (toInt(argv, 4, &level) < 0) {
@@ -1006,22 +1006,30 @@ int cliSet(const char **argv)
         return -1;
       }
       if (module == 0) {
-        #if defined(PCBXLITE)
-        {
         if (level) {
-          GPIO_ResetBits(INTMODULE_BOOTCMD_GPIO, INTMODULE_BOOTCMD_GPIO_PIN); //pulls pin low
+          GPIO_ResetBits(INTMODULE_BOOTCMD_GPIO, INTMODULE_BOOTCMD_GPIO_PIN);
           cliSerialPrint("%s: bootpin set", argv[0]);
         } else {
-          GPIO_SetBits(INTMODULE_BOOTCMD_GPIO, INTMODULE_BOOTCMD_GPIO_PIN); //pulls pin high
+          GPIO_SetBits(INTMODULE_BOOTCMD_GPIO, INTMODULE_BOOTCMD_GPIO_PIN);
           cliSerialPrint("%s: bootpin reset", argv[0]);
         }
-        } else {
-          GPIO_SetBits(INTMODULE_BOOTCMD_GPIO, INTMODULE_BOOTCMD_GPIO_PIN); //xlite s and pro have inversion on the bootpin, so this also pulls it low
+      }
+    }
+#endif
+#if defined(INTMODULE_BOOTCMD_GPIO) || !defined(PCBXLITE)
+    else if (!strcmp(argv[3], "bootpin")) {
+      int level = 0;
+      if (toInt(argv, 4, &level) < 0) {
+        cliSerialPrint("%s: invalid bootpin argument '%s'", argv[0], argv[4]);
+        return -1;
+      }
+      if (module == 0) {
+        if (level) {
+          GPIO_SetBits(INTMODULE_BOOTCMD_GPIO, INTMODULE_BOOTCMD_GPIO_PIN);
           cliSerialPrint("%s: bootpin set", argv[0]);
         } else {
-          GPIO_ResetBits(INTMODULE_BOOTCMD_GPIO, INTMODULE_BOOTCMD_GPIO_PIN); //pulls pin high
+          GPIO_ResetBits(INTMODULE_BOOTCMD_GPIO, INTMODULE_BOOTCMD_GPIO_PIN);
           cliSerialPrint("%s: bootpin reset", argv[0]);
-        }
         }
       }
     }
